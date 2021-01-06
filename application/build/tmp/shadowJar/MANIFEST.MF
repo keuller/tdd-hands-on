@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Implementation-Title: Boilerplate
+Multi-Release: true
+Company: kmdev
+Main-Class: com.kmdev.http4k.app.AppKt
+

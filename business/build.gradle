@@ -1,0 +1,39 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'java-library'
+}
+
+dependencies {
+    implementation project(':common')
+
+    // runtime
+    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+    implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
+    implementation('org.jetbrains.kotlin:kotlin-reflect')
+
+    // logging
+    implementation "ch.qos.logback:logback-classic:1.2.3"
+
+    // Test
+    testImplementation("io.mockk:mockk:1.10.2")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:4.3.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+        suppressWarnings = true
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+        suppressWarnings = false
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

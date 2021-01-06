@@ -1,0 +1,78 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'application'
+}
+
+dependencies {
+    // sub projetos
+    implementation project(':common')
+    implementation project(':business')
+
+    // kotlin runtime
+    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+    implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
+    implementation('org.jetbrains.kotlin:kotlin-reflect')
+
+    // http4k
+    implementation platform("org.http4k:http4k-bom:$http4kVersion")
+    implementation "org.http4k:http4k-core"
+    implementation "org.http4k:http4k-cloudnative"
+    implementation "org.http4k:http4k-format-jackson"
+    implementation "org.http4k:http4k-server-netty"
+    implementation "org.http4k:http4k-template-handlebars"
+
+    // JSON - Jackson
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+    implementation "ch.qos.logback:logback-classic:1.2.3"
+
+    // Database
+    implementation 'org.xerial:sqlite-jdbc:3.34.0'
+    implementation 'com.zaxxer:HikariCP:3.4.5'
+    implementation 'org.jdbi:jdbi3-core:3.18.0'
+    implementation 'org.jdbi:jdbi3-kotlin:3.18.0'
+    implementation 'org.jdbi:jdbi3-kotlin-sqlobject:3.18.0'
+
+    // Test
+    testImplementation "org.http4k:http4k-testing-kotest:$http4kVersion"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+application {
+    mainClass = 'com.kmdev.handson.app.AppKt'
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+        suppressWarnings = true
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+        suppressWarnings = false
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    mainClassName = 'com.kmdev.http4k.app.AppKt'
+    zip64 = true
+    mergeServiceFiles()
+    manifest {
+        attributes 'Implementation-Title': 'Boilerplate'
+        attributes 'Multi-Release': 'true'
+        attributes 'Company': 'kmdev'
+    }
+}
+
+// run.classpath += configurations.developmentOnly
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')

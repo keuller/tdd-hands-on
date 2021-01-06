@@ -1,0 +1,2 @@
+rootProject.name = 'tdd-handson'
+include('application', 'business', 'common')

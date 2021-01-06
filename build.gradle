@@ -1,0 +1,16 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.21-2' apply false
+    id 'idea'
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    group = 'com.kmdev.handson'
+    version = '1.0.0'
+}
