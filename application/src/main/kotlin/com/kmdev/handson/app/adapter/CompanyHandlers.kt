@@ -5,7 +5,6 @@ import org.http4k.core.HttpHandler
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.BAD_REQUEST
 import org.http4k.core.Status.Companion.NOT_FOUND
-import org.http4k.format.Jackson.auto
 import org.http4k.lens.Path
 import org.http4k.lens.string
 
