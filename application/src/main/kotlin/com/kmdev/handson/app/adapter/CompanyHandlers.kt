@@ -1,6 +1,5 @@
 package com.kmdev.handson.app.adapter
 
-import com.kmdev.handson.business.company.*
 import org.http4k.core.HttpHandler
 import org.http4k.core.Response
 import org.http4k.core.Status.Companion.BAD_REQUEST
@@ -9,8 +8,6 @@ import org.http4k.lens.Path
 import org.http4k.lens.string
 
 internal val idParam = Path.string().of("id")
-
-internal val service = CompanyService(CompanyRepositoryImpl())
 
 fun findCompanyById(): HttpHandler = { request ->
     val id = idParam(request)

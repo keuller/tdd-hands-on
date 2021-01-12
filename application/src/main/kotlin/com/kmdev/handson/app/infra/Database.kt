@@ -18,7 +18,6 @@ typealias CommandHandler<T> = (Handle) -> T
 object Database {
     private var jdbi: Jdbi? = null
     private val path = Paths.get("").toAbsolutePath().toString()
-    private var sqlDebug: Boolean = false
 
     private fun getSqlLocator() = ClasspathSqlLocator.create()
 
@@ -32,11 +31,9 @@ object Database {
         val dbFile = "$path/boilerplate.db"
 
         val codes = UUID.randomUUID().toString().split("-")
-//        it.driverClassName = "com.sqlite.Driver"
         it.jdbcUrl = "jdbc:sqlite://$dbFile"
-        it.poolName = "default_${codes[0]}_pool"
-        it.connectionInitSql = "SELECT 1 FROM companies LIMIT 1"
-        it.connectionTestQuery = "SELECT 1 FROM companies LIMIT 1"
+        it.poolName = "company_${codes[0]}_pool"
+        it.connectionTestQuery = "SELECT 1"
         it.maximumPoolSize = 10
         it.connectionTimeout = 5_000L
         it.leakDetectionThreshold = 15_000L
@@ -50,9 +47,7 @@ object Database {
             if (null == jdbi) {
                 jdbi = Jdbi.create(dataSource)
                     .installPlugin(KotlinPlugin())
-                    .installPlugin(KotlinSqlObjectPlugin()).also {
-                        if (sqlDebug) it.setSqlLogger(SqlLogger())
-                    }
+                    .installPlugin(KotlinSqlObjectPlugin())
             }
             jdbi!!
         }

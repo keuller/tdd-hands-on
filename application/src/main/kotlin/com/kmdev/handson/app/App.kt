@@ -7,7 +7,7 @@ import org.http4k.server.asServer
 import org.slf4j.LoggerFactory
 
 fun main() {
-    val HTTP_PORT = System.getenv().getOrDefault("PORT", "8080")
+    val HTTP_PORT = System.getenv().getOrDefault("APP_PORT", "8080")
     val logger = LoggerFactory.getLogger("com.kmdev.handson.Application")
 
     // health check endpoints (liveness & readiness)
